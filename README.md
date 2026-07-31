@@ -21,7 +21,6 @@ Manabu acts as a personalized career guide, an academic resource hub, and a ment
 - [Running Tests](#-running-tests)
 - [Core Project Team](#-core-project-team)
 - [Contributing](#-contributing)
-- [License](#-license)
 
 ---
 
@@ -170,7 +169,7 @@ All Pull Requests into the `release` branch should pass these tests before promo
 ## Core Project Team
 
 | Role | Name | Class Roll |
-|---|---|
+|---|---|---|
 | Project Manager (PM) | [Marufa ] | 365 |
 | Frontend Engineer | [Farjana Akter Anonna] | 361 |
 | Backend Engineer | [Sanchita Rani Roy] | 371 |
