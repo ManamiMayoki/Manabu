@@ -1,28 +1,36 @@
 version: '3.8'
 
 services:
-  # Frontend Service (React/Vite)
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    depends_on:
-      - backend
-
-  # Backend Service (Node/Express)
+  # Backend Service
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    container_name: express_backend
+    restart: always
     ports:
       - "5000:5000"
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
+      - PORT=5000
+      # Add database URLs or other ENV variables here if needed
+    networks:
+      - app-network
+
+  # Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: react_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
