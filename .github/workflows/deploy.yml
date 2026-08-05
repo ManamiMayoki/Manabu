@@ -1,0 +1,28 @@
+name: Deploy MERN Application
+
+on:
+  push:
+    branches:
+      - production  
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /var/www/app
+            git fetch --all
+            git checkout production  # Pulled branch changed to production
+            git pull origin production
+            docker-compose down
+            docker-compose up -d --build
+            docker system prune -f
