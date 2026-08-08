@@ -894,6 +894,2418 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get Users List Page 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Current page is 2\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.page).to.eql(2);",
+							"});",
+							"pm.test(\"Page 2 data contains user ID 7\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data[0].id).to.eql(7);",
+							"});",
+							"pm.test(\"Per page count is 6\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.per_page).to.eql(6);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users?page=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Details ID 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"User first name is Emma\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.first_name).to.eql(\"Emma\");",
+							"});",
+							"pm.test(\"User last name is Wong\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.last_name).to.eql(\"Wong\");",
+							"});",
+							"pm.test(\"Avatar image link contains ID 3\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.avatar).to.include(\"3-image\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/3",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Details ID 4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"User ID is 4\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.id).to.eql(4);",
+							"});",
+							"pm.test(\"User email is eve.holt@reqres.in\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.email).to.eql(\"eve.holt@reqres.in\");",
+							"});",
+							"pm.test(\"Support text is present\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.support.text).to.be.a('string');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/4",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Details ID 5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"User first name is Charles\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.first_name).to.eql(\"Charles\");",
+							"});",
+							"pm.test(\"User last name is Morris\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.last_name).to.eql(\"Morris\");",
+							"});",
+							"pm.test(\"Response time is under 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/5",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Non-Existent User ID 23",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404 Not Found\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Response body is an empty JSON object\", function () {",
+							"    pm.expect(pm.response.text()).to.eql(\"{}\");",
+							"});",
+							"pm.test(\"Header contains Content-Type\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Cache-Control header is present\", function () {",
+							"    pm.response.to.have.header(\"Cache-Control\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/23",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Resource Colors List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Resource array length is 6\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.length).to.eql(6);",
+							"});",
+							"pm.test(\"First resource name is cerulean\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data[0].name).to.eql(\"cerulean\");",
+							"});",
+							"pm.test(\"Resource has color hex value\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data[0].color).to.include(\"#\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/unknown",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Non-Existent Resource ID 23",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404 Not Found\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Response body is empty object\", function () {",
+							"    pm.expect(pm.response.text()).to.eql(\"{}\");",
+							"});",
+							"pm.test(\"Server header is present\", function () {",
+							"    pm.response.to.have.header(\"Server\");",
+							"});",
+							"pm.test(\"Response time is under 800ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(800);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/unknown/23",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown",
+						"23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Registration - Successful",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response contains ID property\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('id');",
+							"});",
+							"pm.test(\"Response returns registration token\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('token');",
+							"});",
+							"pm.test(\"Generated ID is a number\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.be.a('number');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"pistol\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/register",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Registration - Missing Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400 Bad Request\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"pm.test(\"Response error specifies Missing password\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error).to.eql(\"Missing password\");",
+							"});",
+							"pm.test(\"Content-Type is JSON\", function () {",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"pm.test(\"Response time is below 800ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(800);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"sydney@fife\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/register",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User - SQA Role",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201 Created\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Name is Beauty\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"Beauty\");",
+							"});",
+							"pm.test(\"Job is SQA Engineer\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.job).to.eql(\"SQA Engineer\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Beauty\",\n    \"job\": \"SQA Engineer\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User - Frontend Role",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201 Created\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Name is Farjana\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"Farjana\");",
+							"});",
+							"pm.test(\"Job is Frontend Developer\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.job).to.eql(\"Frontend Developer\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Farjana\",\n    \"job\": \"Frontend Developer\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User - Backend Role",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201 Created\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Name is Sanchita\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"Sanchita\");",
+							"});",
+							"pm.test(\"Job is Backend Developer\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.job).to.eql(\"Backend Developer\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Sanchita\",\n    \"job\": \"Backend Developer\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User ID 3 Details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Updated job is Lead UI Designer\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.job).to.eql(\"Lead UI Designer\");",
+							"});",
+							"pm.test(\"Response contains updatedAt\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('updatedAt');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Emma Wong\",\n    \"job\": \"Lead UI Designer\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/3",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User ID 4 Details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Updated name is Eve Holt\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"Eve Holt\");",
+							"});",
+							"pm.test(\"Job is DevOps Architect\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.job).to.eql(\"DevOps Architect\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Eve Holt\",\n    \"job\": \"DevOps Architect\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/4",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch User ID 3 Job Title",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Patched job is Senior Product Designer\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.job).to.eql(\"Senior Product Designer\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"job\": \"Senior Product Designer\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/3",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch User ID 4 Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Patched name is Eve Holt-Smith\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"Eve Holt-Smith\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Eve Holt-Smith\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/4",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User ID 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204 No Content\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"pm.test(\"Response body is empty\", function () {",
+							"    pm.expect(pm.response.text()).to.be.empty;",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/3",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User ID 4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204 No Content\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"pm.test(\"Response time is under 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/4",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check Users Endpoint Options",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 or 204\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+							"});",
+							"pm.test(\"Access-Control-Allow-Methods exists\", function () {",
+							"    pm.response.to.have.header(\"Access-Control-Allow-Methods\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "OPTIONS",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Resource Item A",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201 Created\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Resource name is cerulean\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"cerulean\");",
+							"});",
+							"pm.test(\"Resource year is 2000\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.year).to.eql(2000);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"cerulean\",\n    \"year\": 2000,\n    \"color\": \"#98B2D1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/unknown",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Resource Item B",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201 Created\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Resource color is #C74375\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.color).to.eql(\"#C74375\");",
+							"});",
+							"pm.test(\"Generated ID exists\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('id');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"fuchsia rose\",\n    \"year\": 2001,\n    \"color\": \"#C74375\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/unknown",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Resource Item 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Updated year is 2026\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.year).to.eql(2026);",
+							"});",
+							"pm.test(\"Response has updatedAt timestamp\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('updatedAt');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"fuchsia rose updated\",\n    \"year\": 2026,\n    \"color\": \"#C74375\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/unknown/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch Resource Item 2 Year",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Patched year is 2027\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.year).to.eql(2027);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"year\": 2027\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/unknown/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Resource Item 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204 No Content\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"pm.test(\"Response body is empty\", function () {",
+							"    pm.expect(pm.response.text()).to.be.empty;",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/unknown/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User - Invalid Email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400 Bad Request\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"pm.test(\"Error message specifies User not found\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error).to.eql(\"user not found\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"invalid@user.com\",\n    \"password\": \"testpassword\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/login",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User - Empty Payload",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400 Bad Request\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"pm.test(\"Error message is present\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('error');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/login",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User - Empty Payload",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400 Bad Request\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"pm.test(\"Error message specifies Missing email or username\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error).to.eql(\"Missing email or username\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/register",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users Delayed Response 2s",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Delayed response contains data array\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.be.an('array');",
+							"});",
+							"pm.test(\"Response time is under 5000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(5000);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users?delay=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "delay",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users Delayed Response 3s",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Total users count is 12\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.total).to.eql(12);",
+							"});",
+							"pm.test(\"Response time is under 5000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(5000);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users?delay=3",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "delay",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Details ID 6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"User first name is Trace\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.first_name).to.eql(\"Tracey\");",
+							"});",
+							"pm.test(\"User last name is Ramos\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.last_name).to.eql(\"Ramos\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/6",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Details ID 7",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"User first name is Michael\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.first_name).to.eql(\"Michael\");",
+							"});",
+							"pm.test(\"User email is michael.lawson@reqres.in\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.email).to.eql(\"michael.lawson@reqres.in\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/7",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Details ID 8",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"User ID is 8\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.id).to.eql(8);",
+							"});",
+							"pm.test(\"User last name is Ferguson\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.last_name).to.eql(\"Ferguson\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/8",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Resource Color ID 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Resource name is true red\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.name).to.eql(\"true red\");",
+							"});",
+							"pm.test(\"Resource year is 2002\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.year).to.eql(2002);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/unknown/3",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Resource Color ID 4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Resource ID is 4\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.id).to.eql(4);",
+							"});",
+							"pm.test(\"Resource hex color starts with #\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.color).to.include(\"#\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/unknown/4",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User ID 5 Details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Updated job is Security Lead\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.job).to.eql(\"Security Lead\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Charles Morris\",\n    \"job\": \"Security Lead\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/5",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User ID 5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204 No Content\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"pm.test(\"Response body is empty\", function () {",
+							"    pm.expect(pm.response.text()).to.be.empty;",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/5",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User ID 6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204 No Content\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"pm.test(\"Response status line is No Content\", function () {",
+							"    pm.response.to.have.status(\"No Content\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/6",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check Login Endpoint Options",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 or 204\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+							"});",
+							"pm.test(\"Access-Control-Allow-Methods header exists\", function () {",
+							"    pm.response.to.have.header(\"Access-Control-Allow-Methods\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "OPTIONS",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/login",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check Register Endpoint Headers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 or 404\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 404]);",
+							"});",
+							"pm.test(\"Response body is empty for HEAD request\", function () {",
+							"    pm.expect(pm.response.text()).to.be.empty;",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "free_user_3HcV1yLVhyU9ThAl1pbjGerfSm3",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "HEAD",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/register",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
