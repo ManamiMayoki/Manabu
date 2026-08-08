@@ -2,9 +2,10 @@ name: API Automated Tests & Quality Checks
 
 on:
   push:
-    branches: [ development, release, production ]
+    branches: [ development ]
   pull_request:
-    branches: [ development, release, production ]
+    branches: [ development ]
+  workflow_dispatch: # Allows manual trigger from the GitHub Actions UI
 
 jobs:
   run-api-tests:
@@ -25,19 +26,19 @@ jobs:
 
       - name: Run PM Postman Tests
         run: |
-          newman run postman/PM_tests.json -e postman/environment.json -r cli,htmlextra --reporter-htmlextra-export newman/PM_report.html || true
+          newman run tests/postman/PM_tests.json -e tests/postman/environment.json -r cli,htmlextra --reporter-htmlextra-export newman/PM_report.html || true
 
       - name: Run SQA Postman Tests
         run: |
-          newman run postman/SQA_tests.json -e postman/environment.json -r cli,htmlextra --reporter-htmlextra-export newman/SQA_report.html || true
+          newman run tests/postman/SQA_tests.json -e tests/postman/environment.json -r cli,htmlextra --reporter-htmlextra-export newman/SQA_report.html || true
 
       - name: Run Backend Postman Tests
         run: |
-          newman run postman/Backend_tests.json -e postman/environment.json -r cli,htmlextra --reporter-htmlextra-export newman/Backend_report.html || true
+          newman run tests/postman/Backend_tests.json -e tests/postman/environment.json -r cli,htmlextra --reporter-htmlextra-export newman/Backend_report.html || true
 
       - name: Run Frontend Postman Tests
         run: |
-          newman run postman/Frontend_tests.json -e postman/environment.json -r cli,htmlextra --reporter-htmlextra-export newman/Frontend_report.html || true
+          newman run tests/postman/Frontend_tests.json -e tests/postman/environment.json -r cli,htmlextra --reporter-htmlextra-export newman/Frontend_report.html || true
 
       - name: Upload Test Reports as Artifacts
         uses: actions/upload-artifact@v4
