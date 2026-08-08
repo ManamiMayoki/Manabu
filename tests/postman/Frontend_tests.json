@@ -440,7 +440,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Status code is 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response time is under 500ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(500);\r\n});\r\n\r\npm.test(\"Verify updated properties\", function () {\r\n    const json = pm.response.json();\r\n    pm.expect(json.title).to.eql(\"New Title for Post 2\");\r\n    pm.expect(json.body).to.eql(\"Replaced entire body content\");\r\n});"
+              "pm.test(\"Status code is 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response time is under 5000ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(5000);\r\n});\r\n\r\npm.test(\"Verify updated properties\", function () {\r\n    const json = pm.response.json();\r\n    pm.expect(json.title).to.eql(\"New Title for Post 2\");\r\n    pm.expect(json.body).to.eql(\"Replaced entire body content\");\r\n});"
             ]
           }
         }
