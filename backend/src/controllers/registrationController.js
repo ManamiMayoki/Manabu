@@ -3,12 +3,37 @@ const Registration = require('../models/Registration');
 // Configuration Constant
 const EVENT_MAX_CAPACITY = 100;
 
-// 1. CREATE REGISTRATION (Validation -> Capacity -> Duplicate -> Create Ticket)
+// 1. CREATE REGISTRATION (Single or Array)
 exports.createRegistration = async (req, res) => {
   try {
+    // Array / Bulk Insert Support
+    if (Array.isArray(req.body)) {
+      const createdRegistrations = [];
+
+      for (const item of req.body) {
+        const { email, eventName, participantName } = item;
+        if (!email || !eventName || !participantName) continue;
+
+        const generatedTicketCode = `TCK-${Math.floor(100000 + Math.random() * 900000)}`;
+        const newRegistration = new Registration({
+          ...item,
+          ticketCode: generatedTicketCode,
+        });
+
+        const savedDoc = await newRegistration.save();
+        createdRegistrations.push(savedDoc);
+      }
+
+      return res.status(201).json({
+        success: true,
+        message: `${createdRegistrations.length} Registrations created successfully!`,
+        data: createdRegistrations,
+      });
+    }
+
+    // Single Registration
     const { email, eventName, participantName } = req.body;
 
-    // STEP A: Basic Validation
     if (!email || !eventName || !participantName) {
       return res.status(400).json({
         success: false,
@@ -16,7 +41,7 @@ exports.createRegistration = async (req, res) => {
       });
     }
 
-    // STEP B: Capacity Check
+    // Capacity Check
     const totalRegistered = await Registration.countDocuments({ eventName });
     if (totalRegistered >= EVENT_MAX_CAPACITY) {
       return res.status(400).json({
@@ -25,7 +50,7 @@ exports.createRegistration = async (req, res) => {
       });
     }
 
-    // STEP C: Duplicate Registration Check
+    // Duplicate Check
     const existingRegistration = await Registration.findOne({ email, eventName });
     if (existingRegistration) {
       return res.status(409).json({
@@ -34,10 +59,8 @@ exports.createRegistration = async (req, res) => {
       });
     }
 
-    // STEP D: Generate Unique Ticket Code
+    // Generate Unique Ticket Code
     const generatedTicketCode = `TCK-${Math.floor(100000 + Math.random() * 900000)}`;
-
-    // STEP E: Save Registration
     const newRegistration = new Registration({
       ...req.body,
       ticketCode: generatedTicketCode,
@@ -100,10 +123,14 @@ exports.updateRegistration = async (req, res) => {
   }
 };
 
-// 5. ATTENDANCE SUB-MODULE: QR SCAN / CHECK-IN VIA TICKET CODE
+// 5. ATTENDANCE SUB-MODULE
 exports.markAttendance = async (req, res) => {
   try {
     const { ticketCode } = req.body;
+
+    if (!ticketCode) {
+      return res.status(400).json({ success: false, message: 'Ticket code is required.' });
+    }
 
     const registration = await Registration.findOne({ ticketCode });
     if (!registration) {
