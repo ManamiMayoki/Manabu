@@ -1,0 +1,47 @@
+name: Week 2 API Automated Tests
+
+on:
+  push:
+    branches: [ development, release, producer ]
+  pull_request:
+    branches: [ development, release, producer ]
+  workflow_dispatch:
+
+jobs:
+  run-api-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Newman & HTML Reporter
+        run: |
+          npm install -g newman newman-reporter-htmlextra
+
+      - name: Run Event Module Tests
+        run: |
+          newman run tests/postman_week2/Event_tests.json -r cli,htmlextra --reporter-htmlextra-export newman/Event_report.html || true
+
+      - name: Run Festival Module Tests
+        run: |
+          newman run tests/postman_week2/Festival_tests.json -r cli,htmlextra --reporter-htmlextra-export newman/Festival_report.html || true
+
+      - name: Run Organizer Module Tests
+        run: |
+          newman run tests/postman_week2/Organizer_tests.json -r cli,htmlextra --reporter-htmlextra-export newman/Organizer_report.html || true
+
+      - name: Run Registration Module Tests
+        run: |
+          newman run tests/postman_week2/Registration_tests.json -r cli,htmlextra --reporter-htmlextra-export newman/Registration_report.html || true
+
+      - name: Upload Test Reports as Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: week2-postman-html-reports
+          path: newman/
