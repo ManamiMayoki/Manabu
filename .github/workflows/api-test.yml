@@ -20,7 +20,7 @@ jobs:
 
       - name: Spin Up MongoDB & Backend Containers
         run: |
-          docker compose up -d --build
+          docker compose up -d --build mongodb backend
           docker compose ps
 
       - name: Wait for Services to be Ready
@@ -52,7 +52,7 @@ jobs:
         run: |
           newman run tests/postman_week3/Registration_tests.json -r cli,htmlextra --reporter-htmlextra-export newman/Registration_report.html || true
 
-      # --- General Automated Tests ---
+      # --- Core / Quality Tests ---
       - name: Run PM Postman Tests
         run: |
           newman run tests/postman/PM_tests.json -e tests/postman/environment.json -r cli,htmlextra --reporter-htmlextra-export newman/PM_report.html || true
