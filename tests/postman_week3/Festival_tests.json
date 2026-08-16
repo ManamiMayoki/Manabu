@@ -1,0 +1,128 @@
+{
+  "info": {
+    "_postman_id": "b02c6552-3703-49d5-a66b-ec0a235af3a9",
+    "name": "web lab3",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57060944",
+    "_collection_link": "https://go.postman.co/collection/57060944-b02c6552-3703-49d5-a66b-ec0a235af3a9?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "create festival",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201 Created\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Response contains created festival details\", function () {\r\n    const response = pm.response.json();\r\n    \r\n    // Check inside the 'data' object\r\n    pm.expect(response.data).to.have.property(\"_id\"); // Use \"_id\" if your backend uses MongoDB/Mongoose, or \"id\" if mapped\r\n    \r\n    // Store ID for subsequent GET, PUT, or DELETE requests\r\n    const festivalId = response.data._id || response.data.id;\r\n    pm.environment.set(\"festivalId\", festivalId);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Spring Cultural Fest {{$timestamp}}\",\r\n  \"slug\": \"spring-cultural-fest-{{$randomInt}}\",\r\n  \"type\": \"Cultural\",\r\n  \"tagline\": \"Welcoming the New Season\",\r\n  \"description\": \"An annual festival celebrating local music, food, and culture.\",\r\n  \"startDate\": \"2026-04-14T09:00:00.000Z\",\r\n  \"endDate\": \"2026-04-14T21:00:00.000Z\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/festivals",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "festivals"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Feature",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Test status code is 200 OK\r\npm.test(\"Status code is 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test response structure and data payload\r\npm.test(\"Response returns successful status and festival list\", function () {\r\n    const response = pm.response.json();\r\n    \r\n    // Check API response wrapper\r\n    pm.expect(response).to.have.property(\"success\", true);\r\n    pm.expect(response).to.have.property(\"data\");\r\n    \r\n    // Check that 'data' is an array\r\n    pm.expect(response.data).to.be.an(\"array\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/festivals",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "festivals"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Put update festival",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Test status code is 200 OK\r\npm.test(\"Status code is 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test that the festival details were properly updated\r\npm.test(\"Festival data updated successfully\", function () {\r\n    const response = pm.response.json();\r\n    \r\n    // Check API response wrapper\r\n    pm.expect(response).to.have.property(\"success\", true);\r\n    pm.expect(response).to.have.property(\"data\");\r\n    \r\n    // Verify updated values match the sent request body\r\n    pm.expect(response.data.name).to.eql(\"Updated Spring Cultural Fest 2026\");\r\n    pm.expect(response.data.tagline).to.eql(\"Updated Tagline for the New Season\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Updated Spring Cultural Fest 2026\",\r\n  \"slug\": \"updated-spring-cultural-fest-{{$randomInt}}\",\r\n  \"type\": \"Cultural\",\r\n  \"tagline\": \"Updated Tagline for the New Season\",\r\n  \"description\": \"An annual festival celebrating local music, food, and culture.\",\r\n  \"startDate\": \"2026-04-14T09:00:00.000Z\",\r\n  \"endDate\": \"2026-04-14T21:00:00.000Z\",\r\n  \"status\": \"Upcoming\",\r\n  \"isFree\": true\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/festivals/6a8066219fbad11bf52b9d7d",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "festivals",
+            "6a8066219fbad11bf52b9d7d"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
