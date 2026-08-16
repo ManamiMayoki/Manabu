@@ -21,7 +21,9 @@
               "const response = pm.response.json();\r",
               "\r",
               "// Save the newly created event ID\r",
-              "pm.collectionVariables.set(\"eventId\", response.data._id);\r",
+              "if (response.data && response.data._id) {\r",
+              "    pm.collectionVariables.set(\"eventId\", response.data._id);\r",
+              "}\r",
               "\r",
               "pm.test(\"Event ID exists\", function () {\r",
               "    pm.expect(response.data._id).to.exist;\r",
@@ -72,10 +74,7 @@
             "exec": [
               "pm.test(\"Status code is 200\", function () {\r",
               "    pm.response.to.have.status(200);\r",
-              "});\r",
-              "\r",
-              "\r",
-              ""
+              "});\r"
             ],
             "type": "text/javascript",
             "packages": {},
