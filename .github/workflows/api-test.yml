@@ -2,10 +2,10 @@ name: API Automated Tests & Quality Checks
 
 on:
   push:
-    branches: [ development ]
+    branches: [ development, release, production ]
   pull_request:
-    branches: [ development ]
-  workflow_dispatch: # Allows manual trigger from the GitHub Actions UI
+    branches: [ development, release, production ]
+  workflow_dispatch:
 
 jobs:
   run-api-tests:
@@ -14,6 +14,17 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Spin Up MongoDB & Backend Containers
+        run: |
+          docker compose up -d --build
+          docker compose ps
+
+      - name: Wait for Services to be Ready
+        run: sleep 10
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -24,6 +35,24 @@ jobs:
         run: |
           npm install -g newman newman-reporter-htmlextra
 
+      # --- Week 3 Module Automated Tests ---
+      - name: Run Event Module Tests
+        run: |
+          newman run tests/postman_week3/Event_tests.json -r cli,htmlextra --reporter-htmlextra-export newman/Event_report.html || true
+
+      - name: Run Festival Module Tests
+        run: |
+          newman run tests/postman_week3/Festival_tests.json -r cli,htmlextra --reporter-htmlextra-export newman/Festival_report.html || true
+
+      - name: Run Organizer Module Tests
+        run: |
+          newman run tests/postman_week3/Organizer_tests.json -r cli,htmlextra --reporter-htmlextra-export newman/Organizer_report.html || true
+
+      - name: Run Registration Module Tests
+        run: |
+          newman run tests/postman_week3/Registration_tests.json -r cli,htmlextra --reporter-htmlextra-export newman/Registration_report.html || true
+
+      # --- General Automated Tests ---
       - name: Run PM Postman Tests
         run: |
           newman run tests/postman/PM_tests.json -e tests/postman/environment.json -r cli,htmlextra --reporter-htmlextra-export newman/PM_report.html || true
@@ -32,16 +61,12 @@ jobs:
         run: |
           newman run tests/postman/SQA_tests.json -e tests/postman/environment.json -r cli,htmlextra --reporter-htmlextra-export newman/SQA_report.html || true
 
-      - name: Run Backend Postman Tests
-        run: |
-          newman run tests/postman/Backend_tests.json -e tests/postman/environment.json -r cli,htmlextra --reporter-htmlextra-export newman/Backend_report.html || true
-
-      - name: Run Frontend Postman Tests
-        run: |
-          newman run tests/postman/Frontend_tests.json -e tests/postman/environment.json -r cli,htmlextra --reporter-htmlextra-export newman/Frontend_report.html || true
-
       - name: Upload Test Reports as Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: postman-html-reports
           path: newman/
+
+      - name: Tear Down Docker Containers
+        if: always()
+        run: docker compose down -v
