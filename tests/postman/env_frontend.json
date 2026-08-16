@@ -1,0 +1,17 @@
+{
+  "id": "my-environment",
+  "name": "JSONPlaceholder env",
+  "values": [
+    {
+      "key": "baseUrl",
+      "value": "https://jsonplaceholder.typicode.com",
+      "enabled": true
+    },
+    {
+      "key": "baseurl",
+      "value": "https://jsonplaceholder.typicode.com",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment"
+}

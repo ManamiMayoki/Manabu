@@ -1,0 +1,2168 @@
+{
+  "info": {
+    "_postman_id": "1d9e80c9-fa01-4655-9f6f-e14f37d93ce8",
+    "name": "Practice_Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57061157",
+    "_collection_link": "https://go.postman.co/collection/57061157-1d9e80c9-fa01-4655-9f6f-e14f37d93ce8?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get All Products",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response has a products array\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"products\");\r",
+              "    pm.expect(data.products).to.be.an(\"array\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response time is reasonable\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/products",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response has an access token\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"accessToken\");\r",
+              "});\r",
+              "\r",
+              "// Save the token so other requests can reuse it\r",
+              "pm.test(\"Save token to environment\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.environment.set(\"token\", data.accessToken);\r",
+              "    pm.environment.set(\"refreshToken\", data.refreshToken);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n       \"username\": \"emilys\",\r\n       \"password\": \"emilyspass\"\r\n   }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get My Cart",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response has a carts array\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"carts\");\r",
+              "    pm.expect(data.carts).to.be.an(\"array\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/auth/carts",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "carts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Single Product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Product has correct id\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.id).to.eql(1);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Product has a title\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"title\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/products/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Created product has matching title\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.title).to.eql(\"Wireless Mouse\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Created product has an id\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"id\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\":\"Wireless Mouse\",\r\n    \"price\": 799,\r\n    \"category\":\"electronics\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/products/add",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Title was updated\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.title).to.eql(\"Wireless Mouse pro\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Id remains the same\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.id).to.eql(1);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\":\"Wireless Mouse pro\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/products/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Deleted product shows isDeleted true\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.isDeleted).to.eql(true);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/products/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Carts",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response has a carts array\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"carts\");\r",
+              "    pm.expect(data.carts).to.be.an(\"array\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/carts",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "carts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Single Cart",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Cart has correct id\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.id).to.eql(1);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Cart has a products array\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"products\");\r",
+              "    pm.expect(data.products).to.be.an(\"array\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/carts/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "carts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Cart",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "\r",
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Cart has correct userId\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.userId).to.eql(1);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Cart has a total field\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"total\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"userId\": 1,\r\n    \"products\": [\r\n        {\r\n            \"id\": 1,\r\n            \"quantity\": 2\r\n        }\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/carts/add",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "carts",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update cart",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Cart id remains the same\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.id).to.eql(1);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Cart still has a products array\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.products).to.be.an(\"array\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"merge\": true,\r\n    \"products\": [\r\n        {\r\n            \"id\": 2,\r\n            \"quantity\": 1\r\n        }\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/carts/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "carts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Cart",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Deleted cart shows isDeleted true\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.isDeleted).to.eql(true);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/carts/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "carts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Todos",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response has a todos array\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"todos\");\r",
+              "    pm.expect(data.todos).to.be.an(\"array\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/todos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "todos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Single Todos",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Todo has correct id\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.id).to.eql(1);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Todo has a todo text field\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"todo\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Todo has a completed field of type boolean\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.completed).to.be.a(\"boolean\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/todos/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "todos",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Todo",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Todo text matches\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.todo).to.eql(\"Learn Postman testing\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Todo has userId\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.userId).to.eql(5);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"todo\": \"Learn Postman testing\",\r\n    \"completed\": false,\r\n    \"userId\": 5\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/todos/add",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "todos",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Todo",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Todo id remains the same\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.id).to.eql(1);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Completed status was updated\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.completed).to.eql(true);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"completed\": true\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/todos/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "todos",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Todo",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Deleted todo shows isDeleted true\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.isDeleted).to.eql(true);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Deleted todo id matches\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.id).to.eql(1);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/todos/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "todos",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Users",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Response has users array\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"users\");\r",
+              "    pm.expect(data.users).to.be.an(\"array\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/users",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Search users",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Results contain matching name\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.users).to.be.an(\"array\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/users/search?q=john",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "john"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Filters Users by Field",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"All returned users have brown hair\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    data.users.forEach(user => {\r",
+              "        pm.expect(user.hair.color).to.eql(\"Brown\");\r",
+              "    });\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/users/filter?Key=hair.color & value=Brown",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "filter"
+          ],
+          "query": [
+            {
+              "key": "Key",
+              "value": "hair.color "
+            },
+            {
+              "key": " value",
+              "value": "Brown"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get User's Posts",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Response has posts array\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.posts).to.be.an(\"array\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/users/1/posts",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "1",
+            "posts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", () => pm.response.to.have.status(201));\r",
+              "pm.test(\"Created user has matching firstName\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.firstName).to.eql(\"Lily\");\r",
+              "});\r",
+              "pm.test(\"Created user has an id\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"id\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"firstName\": \"Lily\",\r\n    \"lastName\": \"Test\",\r\n    \"age\": 22\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/users/add",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Age was updated\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.age).to.eql(30);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"age\":30\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/users/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Deleted user shows isDeleted true\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.isDeleted).to.eql(true);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/users/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Posts",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Response contains posts array and pagination fields\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.posts).to.be.an(\"array\");\r",
+              "    pm.expect(data.total).to.be.a(\"number\");\r",
+              "    pm.expect(data.skip).to.eql(0);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/posts",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Single Post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Returned post matches requested ID and structure\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.id).to.eql(1);\r",
+              "    pm.expect(data).to.have.all.keys(\"id\", \"title\", \"body\", \"userId\", \"tags\", \"reactions\", \"views\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/posts/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Search Posts",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Search results contain the query keyword\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.posts).to.be.an(\"array\");\r",
+              "    \r",
+              "    const hasMatch = data.posts.some(post => \r",
+              "        post.title.toLowerCase().includes(\"love\") || \r",
+              "        post.body.toLowerCase().includes(\"love\")\r",
+              "    );\r",
+              "    pm.expect(hasMatch).to.be.true;\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/posts/search?q=love",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "love"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Pagination",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Pagination returns correct limit and skip metadata\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.posts.length).to.eql(5);\r",
+              "    pm.expect(data.limit).to.eql(5);\r",
+              "    pm.expect(data.skip).to.eql(10);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/posts?limit=5&skip=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "5"
+            },
+            {
+              "key": "skip",
+              "value": "10"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Sort Posts",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Posts are sorted alphabetically by title\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    const titles = data.posts.map(p => p.title);\r",
+              "    const sortedTitles = [...titles].sort((a, b) => a.localeCompare(b));\r",
+              "    \r",
+              "    pm.expect(titles).to.eql(sortedTitles);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/posts?sortBy=title&order=asc",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts"
+          ],
+          "query": [
+            {
+              "key": "sortBy",
+              "value": "title"
+            },
+            {
+              "key": "order",
+              "value": "asc"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Post Tags",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"All tags are returned as a non-empty array\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.be.an(\"array\").that.is.not.empty;\r",
+              "    data.forEach(tag => {\r",
+              "        pm.expect(tag).to.have.property(\"slug\");\r",
+              "        pm.expect(tag).to.have.property(\"name\");\r",
+              "    });\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/posts/tags",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts",
+            "tags"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Posts by User ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"All returned posts belong to user ID 5\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    data.posts.forEach(post => {\r",
+              "        pm.expect(post.userId).to.eql(5);\r",
+              "    });\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/posts/user/5",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts",
+            "user",
+            "5"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Comments of a Post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Comments belong to post ID 1\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.comments).to.be.an(\"array\");\r",
+              "    data.comments.forEach(comment => {\r",
+              "        pm.expect(comment.postId).to.eql(1);\r",
+              "    });\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/posts/1/comments",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts",
+            "1",
+            "comments"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add New Post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 or 201\", () => {\r",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+              "});\r",
+              "pm.test(\"New post created and returned with an ID\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"id\");\r",
+              "    pm.expect(data.title).to.eql(\"His mother had always taught him\");\r",
+              "    pm.expect(data.userId).to.eql(5);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"His mother had always taught him\",\r\n  \"userId\": 5,\r\n  \"tags\": [\"history\", \"american\"],\r\n  \"reactions\": { \"likes\": 192, \"dislikes\": 25 }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/posts/add",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Post title updated successfully\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.id).to.eql(1);\r",
+              "    pm.expect(data.title).to.eql(\"I think I should change the title of this post\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"I think I should change the title of this post\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/posts/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Via Patch",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Partial update applied to post\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.id).to.eql(1);\r",
+              "    pm.expect(data.title).to.eql(\"Updated via PATCH\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"Updated via PATCH\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/posts/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Post marked as deleted\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.id).to.eql(1);\r",
+              "    pm.expect(data.isDeleted).to.be.true;\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/posts/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Single comments",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Comment has correct id\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.id).to.eql(1);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/comments/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "comments",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Comments-limits,skip,select",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "\r",
+              "pm.test(\"Returns exactly 10 comments\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.comments.length).to.eql(10);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Skip value is reflected correctly\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.skip).to.eql(10);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Selected fields only - no extra fields like userId\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    const firstComment = data.comments[0];\r",
+              "    pm.expect(firstComment).to.have.property(\"body\");\r",
+              "    pm.expect(firstComment).to.have.property(\"postId\");\r",
+              "    pm.expect(firstComment).to.not.have.property(\"userId\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/comments?limit=10&skip=10&select=body,postId",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "comments"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "10"
+            },
+            {
+              "key": "skip",
+              "value": "10"
+            },
+            {
+              "key": "select",
+              "value": "body,postId"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Comment",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", () => pm.response.to.have.status(201));\r",
+              "pm.test(\"Comment body matches\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.body).to.eql(\"This is a test comment\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"body\": \"This is a test comment\",\r\n    \"postId\": 1,\r\n    \"userId\": 5\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/comments/add",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "comments",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Comment",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Comment body was updated\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.body).to.eql(\"Updated comment text\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"body\": \"Updated comment text\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/comments/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "comments",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete comment",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Deleted comment shows isDeleted true\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.isDeleted).to.eql(true);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/comments/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "comments",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Recipes",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Response has recipes array\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.recipes).to.be.an(\"array\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/recipes",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "recipes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Single Recipe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Recipe has ingredients array\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.ingredients).to.be.an(\"array\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/recipes/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "recipes",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Recipe",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Recipe name matches\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.name).to.eql(\"Test Pasta\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Test Pasta\",\r\n    \"ingredients\": [\"Pasta\", \"Tomato Sauce\"],\r\n    \"difficulty\": \"Easy\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/recipes/add",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "recipes",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Search recipes",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Response has recipes array\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.recipes).to.be.an(\"array\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/recipes/search?q=chicken",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "recipes",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "chicken"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Random Quote",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Quote has a quote text field\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"quote\");\r",
+              "});\r",
+              "pm.test(\"Quote has an author\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"author\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/quotes/random",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "quotes",
+            "random"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Head Request",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Response body is empty\", () => {\r",
+              "    pm.expect(pm.response.text().length).to.eql(0);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "HEAD",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/products",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Option Request",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 or 204\", () => {\r",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+              "});\r",
+              "pm.test(\"Response completes without error\", () => {\r",
+              "    pm.expect(pm.response.code).to.not.eql(500);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "OPTIONS",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/products",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Auth Me",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"Returns logged in username\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.username).to.eql(\"emilys\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/auth/me",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "me"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Refresh Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "pm.test(\"New access token returned\", () => {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.have.property(\"accessToken\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"refreshToken\": \"{{refreshToken}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/refresh",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "refresh"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

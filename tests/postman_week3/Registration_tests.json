@@ -1,0 +1,399 @@
+{
+	"info": {
+		"_postman_id": "e3ed27d3-f997-478f-b4bf-936eebeefde7",
+		"name": "Registration",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "56197405",
+		"_collection_link": "https://science-astronaut-43617983-6069154.postman.co/workspace/Manabu~75b0b34d-8056-4b5c-94c9-45c5b18bb9f0/collection/56197405-e3ed27d3-f997-478f-b4bf-936eebeefde7?action=share&source=collection_link&creator=56197405"
+	},
+	"item": [
+		{
+			"name": "Create New Registration",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201 Created\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Response has success true and required fields\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"    ",
+							"    // Set variables at collection level",
+							"    pm.collectionVariables.set(\"registration_id\", jsonData.data._id);",
+							"    pm.collectionVariables.set(\"ticket_code\", jsonData.data.ticketCode);",
+							"    pm.collectionVariables.set(\"registered_email\", jsonData.data.email);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"participantName\": \"Marufa\",\n  \"participantType\": \"Professional\",\n  \"email\": \"marufa_{{$randomEmail}}\",\n  \"phone\": \"+8801700000000\",\n  \"institutionOrOrg\": \"JU CSE\",\n  \"eventName\": \"Tech Fest 2026\",\n  \"ticketType\": \"VIP\",\n  \"paymentStatus\": \"completed\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/registrations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"registrations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test Duplicate Check Error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 409 Conflict\", function () {",
+							"    pm.response.to.have.status(409);",
+							"});",
+							"",
+							"pm.test(\"Returns duplicate error message\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(false);",
+							"    pm.expect(jsonData.message).to.include(\"Duplicate Registration\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"participantName\": \"Marufa\",\n  \"participantType\": \"Professional\",\n  \"email\": \"{{registered_email}}\",\n  \"phone\": \"+8801700000000\",\n  \"institutionOrOrg\": \"JU CSE\",\n  \"eventName\": \"Tech Fest 2026\",\n  \"ticketType\": \"VIP\",\n  \"paymentStatus\": \"completed\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/registrations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"registrations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test Attendance Check-In (QR Scan Simulation)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Attendance updated to Attended\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"    pm.expect(jsonData.data.attendanceStatus).to.eql(\"Attended\");",
+							"    pm.expect(jsonData.data.checkInTime).to.not.be.null;",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"ticketCode\": \"{{ticket_code}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/registrations/scan-attendance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"registrations",
+						"scan-attendance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "READ ALL Registrations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Returns an array of registrations\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"    pm.expect(jsonData.data).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/registrations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"registrations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "READ SINGLE Registration by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Fetches correct registration by ID\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"    pm.expect(jsonData.data._id).to.eql(pm.collectionVariables.get(\"registration_id\"));",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/registrations/{{registration_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"registrations",
+						"{{registration_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edge Case: Record Not Found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404 Not Found\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Returns record not found message\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(false);",
+							"    pm.expect(jsonData.message).to.eql(\"Registration not found\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/registrations/66bcbc5f2a1b3c4d5e6f9999",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"registrations",
+						"66bcbc5f2a1b3c4d5e6f9999"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE Registration Details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Registration details successfully updated\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"    pm.expect(jsonData.data).to.have.property('_id');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"phone\": \"+8801811111111\",\n  \"ticketType\": \"Regular\",\n  \"institutionOrOrg\": \"Jahangirnagar University\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/registrations/6a7eedc38ac74d76c196b269",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"registrations",
+						"6a7eedc38ac74d76c196b269"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Registration",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Returns success message on deletion\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"    pm.expect(jsonData.message).to.eql(\"Registration deleted successfully\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/registrations/{{registration_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"registrations",
+						"{{registration_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "registration_id",
+			"value": ""
+		},
+		{
+			"key": "ticket_code",
+			"value": ""
+		},
+		{
+			"key": "registered_email",
+			"value": ""
+		}
+	]
+}

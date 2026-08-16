@@ -1,0 +1,47 @@
+name: API Automated Tests & Quality Checks
+
+on:
+  push:
+    branches: [ development ]
+  pull_request:
+    branches: [ development ]
+  workflow_dispatch: # Allows manual trigger from the GitHub Actions UI
+
+jobs:
+  run-api-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Newman & HTML Reporter
+        run: |
+          npm install -g newman newman-reporter-htmlextra
+
+      - name: Run PM Postman Tests
+        run: |
+          newman run tests/postman/PM_tests.json -e tests/postman/environment.json -r cli,htmlextra --reporter-htmlextra-export newman/PM_report.html || true
+
+      - name: Run SQA Postman Tests
+        run: |
+          newman run tests/postman/SQA_tests.json -e tests/postman/environment.json -r cli,htmlextra --reporter-htmlextra-export newman/SQA_report.html || true
+
+      - name: Run Backend Postman Tests
+        run: |
+          newman run tests/postman/Backend_tests.json -e tests/postman/environment.json -r cli,htmlextra --reporter-htmlextra-export newman/Backend_report.html || true
+
+      - name: Run Frontend Postman Tests
+        run: |
+          newman run tests/postman/Frontend_tests.json -e tests/postman/environment.json -r cli,htmlextra --reporter-htmlextra-export newman/Frontend_report.html || true
+
+      - name: Upload Test Reports as Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: postman-html-reports
+          path: newman/

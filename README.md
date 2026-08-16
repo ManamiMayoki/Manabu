@@ -166,6 +166,23 @@ All Pull Requests into the `release` branch should pass these tests before promo
 
 ---
 
+**Team Setup Instructions for API Testing**
+
+Hey team! The testing infrastructure and CI/CD workflow are now live on `development`.
+
+#### Role-Based File Assignments
+* **PM:** `postman/PM_tests.json`
+* **SQA:** `postman/SQA_tests.json`
+* **Backend:** `postman/Backend_tests.json`
+* **Frontend:** `postman/Frontend_tests.json`
+
+#### Steps to Contribute Your 50 API Tests
+
+1. **Pull the latest `development` branch:**
+   ```bash
+   git checkout development
+   git pull origin development
+
 ## Core Project Team
 
 | Role | Name | Class Roll |

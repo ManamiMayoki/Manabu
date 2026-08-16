@@ -1,0 +1,28 @@
+{
+	"id": "3800a2a2-5e3d-4402-932e-680be0980bb4",
+	"name": "Local",
+	"values": [
+		{
+			"key": "base_url",
+			"value": "https://dummyjson.com",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "refreshToken",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"color": null,
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-08-07T15:29:59.489Z",
+	"_postman_exported_using": "Postman/12.22.6"
+}
