@@ -35,7 +35,12 @@
       ],
       "request": {
         "method": "POST",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
         "body": {
           "mode": "raw",
           "raw": "{\r\n  \"festival_id\": \"65e23a4b9f1a2b001c9d8e7a\",\r\n  \"organizer_id\": \"65e23a4b9f1a2b001c9d9999\",\r\n  \"title\": \"Math Olympiad Written Exam\",\r\n  \"description\": \"Main written examination session for all registered participants.\",\r\n  \"event_type\": \"Exam\",\r\n  \"venue\": {\r\n    \"name\": \"Academic Building 1\",\r\n    \"room_no\": \"Room 302\"\r\n  },\r\n  \"start_time\": \"2026-10-10T10:00:00.000Z\",\r\n  \"end_time\": \"2026-10-10T12:00:00.000Z\",\r\n  \"capacity\": 200\r\n}",
@@ -46,21 +51,13 @@
           }
         },
         "url": {
-          "raw": "http://localhost:5000/api/events?Content-Type=application/json",
-          "protocol": "http",
+          "raw": "{{baseUrl}}/api/events",
           "host": [
-            "localhost"
+            "{{baseUrl}}"
           ],
-          "port": "5000",
           "path": [
             "api",
             "events"
-          ],
-          "query": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
           ]
         }
       },
@@ -90,12 +87,10 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:5000/api/events",
-          "protocol": "http",
+          "raw": "{{baseUrl}}/api/events",
           "host": [
-            "localhost"
+            "{{baseUrl}}"
           ],
-          "port": "5000",
           "path": [
             "api",
             "events"
@@ -138,7 +133,12 @@
       ],
       "request": {
         "method": "PUT",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
         "body": {
           "mode": "raw",
           "raw": "{\r\n  \"title\": \"Math Olympiad Final Exam\",\r\n  \"capacity\": 250,\r\n  \"status\": \"completed\"\r\n}",
@@ -149,12 +149,10 @@
           }
         },
         "url": {
-          "raw": "http://localhost:5000/api/events/{{eventId}}",
-          "protocol": "http",
+          "raw": "{{baseUrl}}/api/events/{{eventId}}",
           "host": [
-            "localhost"
+            "{{baseUrl}}"
           ],
-          "port": "5000",
           "path": [
             "api",
             "events",
@@ -199,12 +197,10 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "http://localhost:5000/api/events/{{eventId}}",
-          "protocol": "http",
+          "raw": "{{baseUrl}}/api/events/{{eventId}}",
           "host": [
-            "localhost"
+            "{{baseUrl}}"
           ],
-          "port": "5000",
           "path": [
             "api",
             "events",
@@ -219,6 +215,10 @@
     {
       "key": "eventId",
       "value": ""
+    },
+    {
+      "key": "baseUrl",
+      "value": "http://103.191.241.110:5000"
     }
   ]
 }
