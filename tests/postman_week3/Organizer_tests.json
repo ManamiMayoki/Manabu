@@ -1,0 +1,208 @@
+{
+  "info": {
+    "_postman_id": "e64397f3-2b33-45f1-b1fb-6fd840190438",
+    "name": "CRUD_operations",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57061157",
+    "_collection_link": "https://go.postman.co/collection/57061157-e64397f3-2b33-45f1-b1fb-6fd840190438?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get Organiser",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response is an array with count\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.success).to.eql(true);\r",
+              "    pm.expect(jsonData.data).to.be.an('array');\r",
+              "    pm.expect(jsonData.count).to.eql(jsonData.data.length);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/organizers",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "organizers"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Organiser",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response has success true and organizer data\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.success).to.eql(true);\r",
+              "    pm.expect(jsonData.data).to.have.property('_id');\r",
+              "});\r",
+              "\r",
+              "// Auto-save the ID for use in GET/PUT/DELETE requests\r",
+              "\r",
+              "\r",
+              "const jsonData = pm.response.json();\r",
+              "pm.collectionVariables.set(\"organizerId\", jsonData.data._id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Test Organizer\",\r\n  \"email\": \"test@organizer.com\",\r\n  \"phone\": \"1234567890\",\r\n  \"organizationName\": \"Test Org\",\r\n  \"website\": \"https://testorg.com\",\r\n  \"bio\": \"A test organizer\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/organizers",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "organizers"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update organiser",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Organizer was updated\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.success).to.eql(true);\r",
+              "    pm.expect(jsonData.data.name).to.eql(\"Updated Test Organizer\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Updated Test Organizer\",\r\n  \"bio\": \"Updated bio text\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/organizers/{{organizerId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "organizers",
+            "{{organizerId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Organiser",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Deletion confirmed\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.success).to.eql(true);\r",
+              "    pm.expect(jsonData.message).to.eql(\"Organizer deleted successfully\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/organizers/{{organizerId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "organizers",
+            "{{organizerId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "organizerId",
+      "value": ""
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "info": {
+    "_postman_id": "089f640a-6fe1-447e-901b-223f1416a3b6",
+    "name": "event",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57049853",
+    "_collection_link": "https://go.postman.co/collection/57049853-089f640a-6fe1-447e-901b-223f1416a3b6?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "create event",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "const response = pm.response.json();\r",
+              "\r",
+              "// Save the newly created event ID\r",
+              "if (response.data && response.data._id) {\r",
+              "    pm.collectionVariables.set(\"eventId\", response.data._id);\r",
+              "}\r",
+              "\r",
+              "pm.test(\"Event ID exists\", function () {\r",
+              "    pm.expect(response.data._id).to.exist;\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"festival_id\": \"65e23a4b9f1a2b001c9d8e7a\",\r\n  \"organizer_id\": \"65e23a4b9f1a2b001c9d9999\",\r\n  \"title\": \"Math Olympiad Written Exam\",\r\n  \"description\": \"Main written examination session for all registered participants.\",\r\n  \"event_type\": \"Exam\",\r\n  \"venue\": {\r\n    \"name\": \"Academic Building 1\",\r\n    \"room_no\": \"Room 302\"\r\n  },\r\n  \"start_time\": \"2026-10-10T10:00:00.000Z\",\r\n  \"end_time\": \"2026-10-10T12:00:00.000Z\",\r\n  \"capacity\": 200\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/events",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "events"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get all event",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/events",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "events"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update event",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response success is true\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.success).to.eql(true);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Title is updated correctly\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.data.title).to.eql(\"Math Olympiad Final Exam\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Capacity is updated correctly\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.data.capacity).to.eql(250);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"Math Olympiad Final Exam\",\r\n  \"capacity\": 250,\r\n  \"status\": \"completed\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/events/{{eventId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "events",
+            "{{eventId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "del event",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response success is true\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.success).to.eql(true);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Event deleted successfully\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.message).to.eql(\"Event deleted successfully\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response time is less than 1000ms\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/events/{{eventId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "events",
+            "{{eventId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "eventId",
+      "value": ""
+    },
+    {
+      "key": "baseUrl",
+      "value": "http://103.191.241.110:5000"
+    }
+  ]
+}

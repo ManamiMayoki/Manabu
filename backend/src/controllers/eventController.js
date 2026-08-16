@@ -5,13 +5,13 @@ exports.createEvent = async (req, res) => {
   try {
     const newEvent = new Event(req.body);
     const savedEvent = await newEvent.save();
-    res.status(201).json({ success: true, data: savedEvent });
+    return res.status(201).json({ success: true, data: savedEvent });
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    return res.status(400).json({ success: false, error: error.message });
   }
 };
 
-// 2. READ ALL EVENTS (or filter by festival_id)
+// 2. READ ALL EVENTS
 exports.getEvents = async (req, res) => {
   try {
     const { festival_id, event_type } = req.query;
@@ -21,12 +21,12 @@ exports.getEvents = async (req, res) => {
     if (event_type) query.event_type = event_type;
 
     const events = await Event.find(query)
-      .populate('festival_id', 'name')
+      .populate({ path: 'festival_id', select: 'name', strictPopulate: false })
       .sort({ start_time: 1 });
 
-    res.status(200).json({ success: true, count: events.length, data: events });
+    return res.status(200).json({ success: true, count: events.length, data: events });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json({ success: false, error: error.message });
   }
 };
 
@@ -34,15 +34,15 @@ exports.getEvents = async (req, res) => {
 exports.getEventById = async (req, res) => {
   try {
     const event = await Event.findById(req.params.id)
-      .populate('festival_id', 'name')
-      .populate('organizer_id', 'name email');
+      .populate({ path: 'festival_id', select: 'name', strictPopulate: false })
+      .populate({ path: 'organizer_id', select: 'name email', strictPopulate: false });
 
     if (!event) {
       return res.status(404).json({ success: false, error: 'Event not found' });
     }
-    res.status(200).json({ success: true, data: event });
+    return res.status(200).json({ success: true, data: event });
   } catch (error) {
-    res.status(400).json({ success: false, error: 'Invalid Event ID format' });
+    return res.status(400).json({ success: false, error: 'Invalid Event ID format' });
   }
 };
 
@@ -58,9 +58,9 @@ exports.updateEvent = async (req, res) => {
     if (!updatedEvent) {
       return res.status(404).json({ success: false, error: 'Event not found' });
     }
-    res.status(200).json({ success: true, data: updatedEvent });
+    return res.status(200).json({ success: true, data: updatedEvent });
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    return res.status(400).json({ success: false, error: error.message });
   }
 };
 
@@ -71,8 +71,8 @@ exports.deleteEvent = async (req, res) => {
     if (!event) {
       return res.status(404).json({ success: false, error: 'Event not found' });
     }
-    res.status(200).json({ success: true, message: 'Event deleted successfully' });
+    return res.status(200).json({ success: true, message: 'Event deleted successfully' });
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    return res.status(400).json({ success: false, error: error.message });
   }
 };
