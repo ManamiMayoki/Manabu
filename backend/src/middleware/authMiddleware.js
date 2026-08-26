@@ -1,7 +1,7 @@
 const authenticateKey = (req, res, next) => {
     // Check for key in custom header or Authorization header
     const apiKey = req.headers['x-api-key'] || req.headers.authorization;
-    const EXPECTED_KEY = process.env.API_KEY || 'your-secret-api-key';
+    const EXPECTED_KEY = process.env.API_KEY || 'MaoriiSecretKey6';
 
     if (!apiKey || apiKey !== EXPECTED_KEY) {
         return res.status(401).json({
