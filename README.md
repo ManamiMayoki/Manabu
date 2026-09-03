@@ -1,8 +1,8 @@
-# Manabu
+# Maorii
 
-> An all-in-one AI-driven student companion platform supporting university students throughout their academic journey.
+> Where every celebration comes to life. 🎉
 
-Manabu acts as a personalized career guide, an academic resource hub, and a mental health sanctuary - like a trusted friend a student can turn to whenever they need guidance.
+**Maorii** is a full-stack festival event organizer platform that helps organizers create and manage festivals, publish events under them, and handle attendee registration, ticketing, and check-in — all from one system.
 
 ![Status](https://img.shields.io/badge/status-in--development-yellow)
 ![Docker](https://img.shields.io/badge/containerized-Docker-2496ED)
@@ -11,24 +11,25 @@ Manabu acts as a personalized career guide, an academic resource hub, and a ment
 
 ## Table of Contents
 
-- [About the Project](#-about-the-project)
-- [Key Features](#-key-features)
-- [Tech Stack & Architecture](#️-tech-stack--architecture)
-- [Project Structure](#-project-structure)
-- [Git Branching & Deployment Strategy](#-git-branching--deployment-strategy)
-- [Getting Started](#-getting-started-local-development)
-- [Environment Variables](#-environment-variables)
-- [Running Tests](#-running-tests)
-- [Core Project Team](#-core-project-team)
-- [Contributing](#-contributing)
+- [About the Project](#about-the-project)
+- [Key Features](#key-features)
+- [Tech Stack & Architecture](#tech-stack--architecture)
+- [Project Structure](#project-structure)
+- [Git Branching & Deployment Strategy](#git-branching--deployment-strategy)
+- [Getting Started](#getting-started-local-development)
+- [Environment Variables](#environment-variables)
+- [API Overview](#api-overview)
+- [Running Tests](#running-tests)
+- [Core Project Team](#core-project-team)
+- [Contributing](#contributing)
 
 ---
 
 ## About the Project
 
-University life comes with three constant challenges: figuring out a career path, finding reliable study resources, and managing mental well-being - often all at once, and often without enough support.
+Organizing a festival usually means juggling spreadsheets for events, a separate system for ticket sales, and manual attendee check-in at the gate. **Maorii** brings all of that into a single platform.
 
-**Manabu** brings all three into a single platform, so students don't have to juggle five different apps and websites. It combines AI-driven guidance with a community-powered resource hub and a safe space for mental wellness.
+Organizers can create a festival, add events under it (concerts, workshops, stalls, ceremonies, and more), and let participants register and receive a ticket — which can then be scanned in for attendance on the day of the event.
 
 ---
 
@@ -36,54 +37,67 @@ University life comes with three constant challenges: figuring out a career path
 
 | Feature | Description |
 |---|---|
-| **Career Pathway Mapping** | Personalized roadmaps that help students discover and align with their ideal professional goals. |
-| **Internship Sourcing** | A dedicated portal matching students with real-world industry placements and internships. |
-| **Academic Hub** | A shared repository for crowd-sourced class notes and verified faculty research papers. |
-| **Mental Health Support** | A safe, accessible space offering supportive resources and wellness tracking for students. |
+| **Festival Management** | Create and manage festivals with dates, venue/location, banner & gallery images, pricing, and status (Draft, Upcoming, Ongoing, Completed, Cancelled). |
+| **Event Scheduling** | Add multiple events per festival (Cultural, Concert, Workshop, Stall, Prize Ceremony, and more), each with its own venue, timing, capacity, and performer/guest list. |
+| **Organizer Profiles** | Organizer accounts holding contact details, organization name, and the festivals/events they run. |
+| **Registration & Ticketing** | Attendees register for an event, get an auto-generated ticket code, and can hold different ticket types (Regular, VIP, Student Pass, Early Bird). |
+| **Attendance Check-In** | QR/ticket-code based check-in endpoint that marks a registration as attended and timestamps the check-in. |
 
 ---
 
 ## Tech Stack & Architecture
 
-Manabu is built using a **containerized microservices architecture** to ensure seamless development and easy scaling.
+Maorii is built using a **containerized microservices architecture** (MERN-based) for straightforward local development and deployment.
 
 | Layer | Technology |
 |---|---|
-| **Frontend** | React.js, Vite, Tailwind CSS |
+| **Frontend** | React 19, Vite, Tailwind (via utility classes) |
 | **Backend** | Node.js, Express.js |
-| **Database** | MongoDB/SQL |
-| **Containerization** | Docker & Docker Compose |
-| **CI/CD** | GitHub Actions (automated deployment to BDIX VPS via SSH) |
-
+| **Database** | MongoDB (via Mongoose) |
+| **Containerization** | Docker & Docker Compose (Nginx serves the built frontend) |
+| **CI/CD** | GitHub Actions — automated API tests (Newman/Postman) and deployment to a VPS via SSH |
 
 ---
 
 ## Project Structure
 
-```text
-manabu/
-├── .github/workflows/     # CI/CD pipeline automation (GitHub Actions)
-├── backend/               # Node.js + Express.js server environment
-├── frontend/              # React + Vite client application
-├── sqa/                   # Automated testing scripts and documentation
-├── docker-compose.yml     # Multi-container Docker configuration blueprint
-└── README.md              # Project documentation and roadmap
+```
+maorii/
+├── .github/workflows/          # CI/CD pipelines (API tests + deployment)
+├── backend/                    # Node.js + Express API
+│   ├── index.js                 # Entry point
+│   └── src/
+│       ├── app.js               # Express app & route wiring
+│       ├── config/db.js         # MongoDB connection
+│       ├── controllers/         # Festival, Event, Organizer, Registration logic
+│       ├── middleware/          # Auth middleware
+│       ├── models/              # Mongoose schemas
+│       └── routes/              # REST API routes
+├── frontend/                   # React + Vite client application
+│   └── src/
+├── tests/                      # Automated testing
+│   ├── postman/                 # Core Postman collections
+│   ├── postman_week3/           # Module-level API test collections
+│   └── jmeter/                  # Load testing scripts
+├── docker-compose.yml          # Multi-container Docker configuration
+└── README.md                   # Project documentation
 ```
 
 ---
 
 ## Git Branching & Deployment Strategy
 
-To keep code deployment stable and predictable, the team follows a strict **3-branch workflow**:
+The team follows a strict **3-branch workflow**:
 
 | Branch | Purpose |
 |---|---|
-| `development` | The active workspace. Frontend and backend engineers branch off here and submit Pull Requests back into `development`. |
-| `release` | The SQA testing environment. Code is promoted here for quality assurance and staging tests. |
-| `production` | The live application environment. Merging here automatically triggers GitHub Actions to rebuild and deploy the latest Docker container to the BDIX live server. |
+| `development` | Active workspace. Engineers branch off here and submit Pull Requests back into `development`. |
+| `release` | Staging/QA environment for testing before going live. |
+| `production` | Live environment. Merging here triggers GitHub Actions to rebuild and deploy the Docker containers to the VPS. |
 
 **Typical workflow:**
-```text
+
+```
 feature/your-feature -> development -> release -> production
 ```
 
@@ -94,8 +108,6 @@ Always branch off `development`, never off `release` or `production` directly.
 ## Getting Started (Local Development)
 
 ### Prerequisites
-
-Make sure have the following installed on machine:
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 - [Git](https://git-scm.com/downloads)
@@ -115,7 +127,7 @@ cd Manabu
 git checkout development
 ```
 
-**3. Spin up the entire environment (Frontend, Backend, and Database) with a single command**
+**3. Spin up the entire environment (Frontend, Backend, and Database)**
 
 ```bash
 docker-compose up --build
@@ -123,12 +135,11 @@ docker-compose up --build
 
 **4. Access the running application**
 
-Once the containers build successfully, the services will be available at:
-
 | Service | URL |
 |---|---|
-| Frontend | `http://localhost:3000` (or `http://localhost:5173` if using Vite's default) |
+| Frontend | `http://localhost:80` |
 | Backend API | `http://localhost:5000` |
+| MongoDB | `mongodb://localhost:27017` |
 
 **5. Stopping the environment**
 
@@ -140,69 +151,65 @@ docker-compose down
 
 ## Environment Variables
 
-Before running the project, create a `.env` file in the `backend/` directory with the following variables:
+Create a `.env` file in the `backend/` directory (or rely on the defaults set in `docker-compose.yml`):
 
-```env
+```
 PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret_key
+MONGO_URI=mongodb://mongodb:27017/maorii_db
 ```
 
-> Never commit `.env` file to version control. Make sure it's listed in `.gitignore`.
+> Never commit your `.env` file to version control — make sure it's listed in `.gitignore`.
+
+---
+
+## API Overview
+
+All routes are served under `/api`:
+
+| Resource | Base Route | Notes |
+|---|---|---|
+| Festivals | `/api/festivals` | CRUD, filter by status, type, or city |
+| Events | `/api/events` | CRUD, filter by festival or event type |
+| Organizers | `/api/organizers` | CRUD |
+| Registrations | `/api/registrations` | CRUD, supports bulk (array) creation |
+| Attendance | `/api/registrations/scan-attendance` | Marks a ticket as attended via check-in scan |
 
 ---
 
 ## Running Tests
 
-Automated tests live in the `sqa/` directory. To run them:
+**API tests (Postman/Newman)** — module collections live in `tests/postman_week3/`:
 
 ```bash
-cd sqa-testing
-npm install
-npm test
+npm install -g newman newman-reporter-htmlextra
+newman run tests/postman_week3/Festival_tests.json --env-var "baseUrl=http://localhost:5000"
 ```
 
-All Pull Requests into the `release` branch should pass these tests before promotion.
+These also run automatically in CI on pushes/PRs to `development`, `release`, and `production`.
+
+**Load tests** — a JMeter script is available at `tests/jmeter/load_test.jmx`.
 
 ---
-
-**Team Setup Instructions for API Testing**
-
-Hey team! The testing infrastructure and CI/CD workflow are now live on `development`.
-
-#### Role-Based File Assignments
-* **PM:** `postman/PM_tests.json`
-* **SQA:** `postman/SQA_tests.json`
-* **Backend:** `postman/Backend_tests.json`
-* **Frontend:** `postman/Frontend_tests.json`
-
-#### Steps to Contribute Your 50 API Tests
-
-1. **Pull the latest `development` branch:**
-   ```bash
-   git checkout development
-   git pull origin development
 
 ## Core Project Team
 
 | Role | Name | Class Roll |
 |---|---|---|
-| Project Manager (PM) | [Marufa ] | 365 |
-| Frontend Engineer | [Farjana Akter Anonna] | 361 |
-| Backend Engineer | [Sanchita Rani Roy] | 371 |
-| Software Quality Assurance (SQA) | [Beauty Paul] | 357 |
+| Project Manager (PM) | Marufa | 365 |
+| Frontend Engineer | Farjana Akter Anonna | 361 |
+| Backend Engineer | Sanchita Rani Roy | 371 |
+| Software Quality Assurance (SQA) | Beauty Paul | 357 |
 
 ---
 
 ## Contributing
 
 1. Fork the repository
-2. Create feature branch from `development`: `git checkout -b feature/your-feature`
+2. Create a feature branch from `development`: `git checkout -b feature/your-feature`
 3. Commit your changes: `git commit -m "Add: your feature description"`
 4. Push to the branch: `git push origin feature/your-feature`
 5. Open a Pull Request into `development`
 
 ---
 
-
-<p align="center">Made with ❤️ by the Manabu Team</p>
+Made with ❤️ by the Maorii Team
