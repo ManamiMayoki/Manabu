@@ -34,13 +34,14 @@ jobs:
       - name: Start Backend Server
         run: |
           npm start &
-          npx wait-on http-get://127.0.0.1:5000 --timeout 30000
+          npx wait-on tcp:127.0.0.1:5000 --timeout 30000
         env:
           PORT: 5000
           MONGO_URI: mongodb://127.0.0.1:27017/manabu_db
+          MONGODB_URI: mongodb://127.0.0.1:27017/manabu_db
           JWT_SECRET: super_secret_test_key
 
-      # --- Week 3 Module Tests targeting Local GitHub Runner Server ---
+      # --- Module Tests ---
       - name: Run Event Module Tests
         run: |
           newman run tests/postman_week3/Event_tests.json --env-var "baseUrl=http://127.0.0.1:5000" -r cli,htmlextra --reporter-htmlextra-export newman/Event_report.html || true
