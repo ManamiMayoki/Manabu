@@ -11,7 +11,6 @@ jobs:
   run-api-tests:
     runs-on: ubuntu-latest
 
-    # Spin up MongoDB container for tests
     services:
       mongodb:
         image: mongo:6.0
@@ -27,21 +26,19 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install App Dependencies
-        run: npm ci
+      - name: Install Project Dependencies & CLI Tools
+        run: |
+          npm install
+          npm install -g newman newman-reporter-htmlextra wait-on
 
       - name: Start Backend Server
         run: |
           npm start &
-          npx wait-on http://localhost:5000
+          npx wait-on http://localhost:5000 --timeout 30000
         env:
           PORT: 5000
           MONGO_URI: mongodb://localhost:27017/manabu_db
           JWT_SECRET: super_secret_test_key
-
-      - name: Install Newman & HTML Reporter
-        run: |
-          npm install -g newman newman-reporter-htmlextra wait-on
 
       # --- Week 3 Module Tests targeting Local GitHub Runner Server ---
       - name: Run Event Module Tests
