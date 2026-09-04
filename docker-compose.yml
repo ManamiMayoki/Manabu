@@ -23,9 +23,11 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
       - PORT=5000
       - MONGO_URI=mongodb://mongodb:27017/manabu_db
+      - JWT_SECRET=manabu_super_secret_jwt_key_2026
+      - JWT_EXPIRE=24h
     depends_on:
       - mongodb
     networks:

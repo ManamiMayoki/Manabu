@@ -1,6 +1,6 @@
 # Maorii
 
-> Where every celebration comes to life. 🎉
+> Where every celebration comes to life. 
 
 **Maorii** is a full-stack festival event organizer platform that helps organizers create and manage festivals, publish events under them, and handle attendee registration, ticketing, and check-in — all from one system.
 
@@ -211,5 +211,3 @@ These also run automatically in CI on pushes/PRs to `development`, `release`, an
 5. Open a Pull Request into `development`
 
 ---
-
-Made with ❤️ by the Maorii Team

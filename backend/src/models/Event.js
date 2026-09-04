@@ -1,30 +1,30 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const EventSchema = new mongoose.Schema(
   {
     festival_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Festival',
-      required: true
+      ref: "Festival",
+      required: [true, "Festival ID is required"]
     },
     organizer_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Organizer',
-      required: true
+      ref: "Organizer",
+      required: [true, "Organizer ID is required"]
     },
     title: { 
       type: String, 
-      required: true, 
+      required: [true, "Event title is required"], 
       trim: true 
     },
     description: { 
       type: String, 
-      required: true 
+      required: [true, "Event description is required"] 
     },
     event_type: { 
       type: String, 
-      enum: ['Exam', 'Cultural', 'Workshop', 'Prize Ceremony', 'Concert', 'Stall', 'Other'],
-      default: 'Other'
+      enum: ["Exam", "Cultural", "Workshop", "Prize Ceremony", "Concert", "Stall", "Other"],
+      default: "Other"
     },
     venue: {
       name: { type: String, required: true },
@@ -50,8 +50,8 @@ const EventSchema = new mongoose.Schema(
     ],
     status: {
       type: String,
-      enum: ['scheduled', 'ongoing', 'completed', 'cancelled'],
-      default: 'scheduled'
+      enum: ["scheduled", "ongoing", "completed", "cancelled"],
+      default: "scheduled"
     }
   },
   {
@@ -59,7 +59,4 @@ const EventSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model('Event', EventSchema);
-
-
-
+module.exports = mongoose.model("Event", EventSchema);
