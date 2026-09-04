@@ -1,3 +1,4 @@
+// app.js
 const express = require('express');
 
 // Import Route Handlers
@@ -11,6 +12,11 @@ const app = express();
 
 // Middleware to parse incoming JSON requests
 app.use(express.json());
+
+// Health Check / Root Endpoint
+app.get('/', (req, res) => {
+  res.status(200).json({ success: true, message: 'API is running successfully.' });
+});
 
 // API Routes
 app.use('/api/auth', authRoutes);
