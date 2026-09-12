@@ -39,7 +39,7 @@ jobs:
       - name: Start backend server in background
         run: |
           npm start &
-          npx wait-on http://localhost:5000/api/health -t 30000
+          npx wait-on http://localhost:5000/ -t 30000
         working-directory: ./backend
 
       - name: Install Newman & HTML Reporter
