@@ -11,6 +11,18 @@ jobs:
   run-api-tests:
     runs-on: ubuntu-latest
 
+    services:
+      mongodb:
+        image: mongo:7
+        ports:
+          - 27017:27017
+
+    env:
+      MONGO_URI: mongodb://localhost:27017/manabu_test
+      JWT_SECRET: test_jwt_secret_for_ci
+      RATE_LIMIT_ENABLED: "false"
+      PORT: 5000
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -20,26 +32,34 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install Newman & HTML Reporter
-        run: |
-          npm install -g newman newman-reporter-htmlextra
+      - name: Install backend dependencies
+        run: npm install
+        working-directory: ./backend
 
-      # --- Week 3 Module Tests ---
+      - name: Start backend server in background
+        run: |
+          npm start &
+          npx wait-on http://localhost:5000/api/health -t 30000
+        working-directory: ./backend
+
+      - name: Install Newman & HTML Reporter
+        run: npm install -g newman newman-reporter-htmlextra
+
       - name: Run Event Module Tests
         run: |
-          newman run tests/postman_week3/Event_tests.json --env-var "baseUrl=http://103.191.241.110:5000" -r cli,htmlextra --reporter-htmlextra-export newman/Event_report.html || true
+          newman run tests/postman_week3/Event_tests.json --env-var "baseUrl=http://localhost:5000" -r cli,htmlextra --reporter-htmlextra-export newman/Event_report.html || true
 
       - name: Run Festival Module Tests
         run: |
-          newman run tests/postman_week3/Festival_tests.json --env-var "baseUrl=http://103.191.241.110:5000" -r cli,htmlextra --reporter-htmlextra-export newman/Festival_report.html || true
+          newman run tests/postman_week3/Festival_tests.json --env-var "baseUrl=http://localhost:5000" -r cli,htmlextra --reporter-htmlextra-export newman/Festival_report.html || true
 
       - name: Run Organizer Module Tests
         run: |
-          newman run tests/postman_week3/Organizer_tests.json --env-var "baseUrl=http://103.191.241.110:5000" -r cli,htmlextra --reporter-htmlextra-export newman/Organizer_report.html || true
+          newman run tests/postman_week3/Organizer_tests.json --env-var "baseUrl=http://localhost:5000" -r cli,htmlextra --reporter-htmlextra-export newman/Organizer_report.html || true
 
       - name: Run Registration Module Tests
         run: |
-          newman run tests/postman_week3/Registration_tests.json --env-var "baseUrl=http://103.191.241.110:5000" -r cli,htmlextra --reporter-htmlextra-export newman/Registration_report.html || true
+          newman run tests/postman_week3/Registration_tests.json --env-var "baseUrl=http://localhost:5000" -r cli,htmlextra --reporter-htmlextra-export newman/Registration_report.html || true
 
       - name: Upload Test Reports as Artifacts
         uses: actions/upload-artifact@v4
