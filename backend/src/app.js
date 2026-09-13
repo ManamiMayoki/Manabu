@@ -1,23 +1,30 @@
+// app.js
 const express = require('express');
-const authMiddleware = require('./middleware/authMiddleware');
 
-const registrationRoutes = require('./routes/registrationRoutes');
+
+const authRoutes = require('./routes/authRoutes');
 const festivalRoutes = require('./routes/festivalRoutes');
 const eventRoutes = require('./routes/eventRoutes');
+const registrationRoutes = require('./routes/registrationRoutes');
 const organizerRoutes = require('./routes/organizerRoutes');
+const sanchitaAuthRoutes = require('./routes/sanchitaAuthRoutes');
 
 const app = express();
 
-// Middleware to parse incoming JSON requests
+
 app.use(express.json());
 
-// Global Authentication Middleware (Protects all routes below it)
-app.use(authMiddleware);
 
-// API Routes
-app.use('/api/registrations', registrationRoutes);
+app.get('/', (req, res) => {
+  res.status(200).json({ success: true, message: 'API is running successfully.' });
+});
+
+
+app.use('/api/auth', authRoutes);
 app.use('/api/festivals', festivalRoutes);
 app.use('/api/events', eventRoutes);
+app.use('/api/registrations', registrationRoutes);
 app.use('/api/organizers', organizerRoutes);
+app.use('/api/sanchita/auth', sanchitaAuthRoutes);
 
 module.exports = app;
