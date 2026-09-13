@@ -15,10 +15,10 @@ const sanchitaAuthRoutes = require('./routes/sanchitaAuthRoutes');
 
 const app = express();
 
-// 1. Set security HTTP headers
+//Set security HTTP headers
 app.use(helmet());
 
-// 2. Rate limiting to prevent brute-force attacks and DDoS
+//Rate limiting to prevent brute-force attacks and DDoS
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per windowMs
@@ -28,7 +28,7 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// 3. Configure CORS with restricted origin whitelist
+//Configure CORS with restricted origin whitelist
 const allowedOrigins = [
   'https://maorii.me',
   'https://www.maorii.me',
@@ -49,13 +49,13 @@ app.use(cors({
   credentials: true
 }));
 
-// 4. Body parser with strict payload size limit (10kb)
+//Body parser with strict payload size limit (10kb)
 app.use(express.json({ limit: '10kb' }));
 
-// 5. Sanitize data against NoSQL query injection
+//Sanitize data against NoSQL query injection
 app.use(mongoSanitize());
 
-// 6. Custom XSS middleware to clean script injection attempts in strings
+//Custom XSS middleware to clean script injection attempts in strings
 app.use((req, res, next) => {
   if (req.body) {
     for (let key of Object.keys(req.body)) {
