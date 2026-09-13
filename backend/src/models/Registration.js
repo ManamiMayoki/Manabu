@@ -1,71 +1,85 @@
 const mongoose = require('mongoose');
 
-const registrationSchema = new mongoose.Schema({
-  // Participant Details (Supports Students, Professionals, Guests, etc.)
-  participantName: {
-    type: String,
-    required: [true, 'Participant name is required'],
-    trim: true,
-  },
-  participantType: {
-    type: String,
-    enum: ['Student', 'Professional', 'Guest', 'Faculty'],
-    default: 'Student',
-  },
-  email: {
-    type: String,
-    required: [true, 'Email is required'],
-    lowercase: true,
-    trim: true,
-  },
-  phone: {
-    type: String,
-    trim: true,
-  },
-  institutionOrOrg: {
-    type: String,
-    trim: true,
-  },
+const registrationSchema = new mongoose.Schema(
+  {
+    // Platform User account (Optional to allow guest participation)
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      default: null
+    },
 
-  // Event Context
-  eventName: {
-    type: String,
-    required: [true, 'Event name is required'],
-  },
+    // Specific event or festival being registered for
+    event: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Event',
+      default: null
+    },
+    festival: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Festival',
+      default: null
+    },
 
-  // Ticket Sub-Module
-  ticketType: {
-    type: String,
-    enum: ['Regular', 'VIP', 'StudentPass', 'EarlyBird'],
-    default: 'Regular',
-  },
-  ticketCode: {
-    type: String,
-    unique: true,
-  },
+    // Participant Details
+    participantName: {
+      type: String,
+      required: [true, 'Participant name is required'],
+      trim: true
+    },
+    participantType: {
+      type: String,
+      enum: ['Student', 'Professional', 'Guest', 'Faculty'],
+      default: 'Student'
+    },
+    email: {
+      type: String,
+      required: [true, 'Email is required'],
+      lowercase: true,
+      trim: true
+    },
+    phone: {
+      type: String,
+      trim: true
+    },
+    institutionOrOrg: {
+      type: String,
+      trim: true
+    },
 
-  // Payment Status
-  paymentStatus: {
-    type: String,
-    enum: ['pending', 'completed', 'refunded'],
-    default: 'pending',
-  },
+    // Ticket Details
+    ticketType: {
+      type: String,
+      enum: ['Regular', 'VIP', 'StudentPass', 'EarlyBird'],
+      default: 'Regular'
+    },
+    ticketCode: {
+      type: String,
+      unique: true,
+      sparse: true // Allows null/undefined values without throwing duplicate key errors
+    },
 
-  // Attendance Sub-Module
-  attendanceStatus: {
-    type: String,
-    enum: ['Absent', 'Attended'],
-    default: 'Absent',
-  },
-  checkInTime: {
-    type: Date,
-    default: null,
-  },
+    // Payment Details
+    paymentStatus: {
+      type: String,
+      enum: ['pending', 'completed', 'refunded'],
+      default: 'pending'
+    },
 
-  registeredAt: {
-    type: Date,
-    default: Date.now,
+    // Attendance Tracker
+    attendanceStatus: {
+      type: String,
+      enum: ['Absent', 'Attended'],
+      default: 'Absent'
+    },
+    checkInTime: {
+      type: Date,
+      default: null
+    }
   },
-});
+  {
+    timestamps: true
+  }
+);
 
 module.exports = mongoose.model('Registration', registrationSchema);

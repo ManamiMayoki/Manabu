@@ -10,7 +10,8 @@ const festivalSchema = new mongoose.Schema(
     slug: {
       type: String,
       lowercase: true,
-      unique: true
+      unique: true,
+      sparse: true
     },
     type: {
       type: String,
@@ -22,7 +23,7 @@ const festivalSchema = new mongoose.Schema(
     organizer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Organizer",
-      required: false, // CHANGED: Set to false so you don't need a valid Organizer ID while testing
+      required: false,
       index: true
     },
     startDate: { type: Date, required: true },
@@ -33,18 +34,41 @@ const festivalSchema = new mongoose.Schema(
       default: "Upcoming"
     },
     location: {
-      venueName: { type: String, required: false }, // CHANGED: Optional for flexible testing
+      venueName: { type: String, required: false },
       address: { type: String },
-      city: { type: String, required: false },      // CHANGED: Optional for flexible testing
-      country: { type: String, required: false }   // CHANGED: Optional for flexible testing
+      city: { type: String, required: false },
+      country: { type: String, required: false }
     },
-    bannerImage: { type: String, required: false }, // CHANGED: Set to false so you can skip image URLs during initial API test
+    bannerImage: { type: String, required: false },
     galleryImages: [String],
     isFree: { type: Boolean, default: true },
     festivalPassPrice: { type: Number, default: 0 },
     tags: [String]
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+  }
 );
+
+// Virtual Populate
+festivalSchema.virtual("events", {
+  ref: "Event",
+  localField: "_id",
+  foreignField: "festival_id"
+});
+
+// Auto-generate slug from name if not provided
+festivalSchema.pre("save", function (next) {
+  if (this.name && (!this.slug || this.isModified("name"))) {
+    this.slug = this.name
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "") + "-" + Date.now();
+  }
+  next();
+});
 
 module.exports = mongoose.model("Festival", festivalSchema);

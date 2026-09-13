@@ -1,16 +1,35 @@
-const authenticateKey = (req, res, next) => {
-    // Check for key in custom header or Authorization header
-    const apiKey = req.headers['x-api-key'] || req.headers.authorization;
-    const EXPECTED_KEY = process.env.API_KEY || 'MaoriiSecretKey6';
+const jwt = require('jsonwebtoken');
 
-    if (!apiKey || apiKey !== EXPECTED_KEY) {
-        return res.status(401).json({
-            success: false,
-            message: 'Unauthorized access. Valid authentication key missing or invalid.'
-        });
-    }
+// 1. Verify JWT Token
+exports.protect = (req, res, next) => {
+  let token;
 
-    next(); // Key is valid, proceed to the route controller
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+
+  if (!token) {
+    return res.status(401).json({ success: false, message: 'Access denied. No token provided.' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret');
+    req.user = decoded; // Attaches { id, role } to the request object
+    next();
+  } catch (error) {
+    return res.status(401).json({ success: false, message: 'Invalid or expired token.' });
+  }
 };
 
-module.exports = authenticateKey;
+// 2. Role-Based Access Control Middleware
+exports.authorize = (...allowedRoles) => {
+  return (req, res, next) => {
+    if (!req.user || !allowedRoles.includes(req.user.role)) {
+      return res.status(403).json({
+        success: false,
+        message: `Forbidden: User role '${req.user?.role}' does not have permission to perform this action.`,
+      });
+    }
+    next();
+  };
+};
