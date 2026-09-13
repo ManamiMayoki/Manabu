@@ -15,14 +15,14 @@ jobs:
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.HOST }}
+          host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /var/www/app
+            cd ~/Manabu
             git fetch --all
-            git checkout production  # Pulled branch changed to production
+            git checkout production
             git pull origin production
-            docker-compose down
-            docker-compose up -d --build
+            docker compose down
+            docker compose up -d --build
             docker system prune -f
