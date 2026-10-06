@@ -195,7 +195,7 @@ These also run automatically in CI on pushes/PRs to `development`, `release`, an
 
 | Role | Name | Class Roll |
 |---|---|---|
-| Project Manager (PM) | Marufa | 365 |
+| Project Manager (PM) | Sadekunnahar Marufa | 365 |
 | Frontend Engineer | Farjana Akter Anonna | 361 |
 | Backend Engineer | Sanchita Rani Roy | 371 |
 | Software Quality Assurance (SQA) | Beauty Paul | 357 |
@@ -211,3 +211,4 @@ These also run automatically in CI on pushes/PRs to `development`, `release`, an
 5. Open a Pull Request into `development`
 
 ---
+Testing co-authored commit for achievement
